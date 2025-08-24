@@ -1,0 +1,29 @@
+/* Font Awesome Icons - Basic Version */
+@font-face {
+    font-family: 'Font Awesome 6 Free';
+    font-style: normal;
+    font-weight: 900;
+    src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2') format('woff2');
+}
+
+.fas, .fa-solid {
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+}
+
+/* Iconos básicos */
+.fa-phone::before { content: '\f095'; }
+.fa-envelope::before { content: '\f0e0'; }
+.fa-angle-down::before { content: '\f107'; }
+.fa-angle-up::before { content: '\f106'; }
+.fa-chevron-down::before { content: '\f078'; }
+.fa-chevron-up::before { content: '\f077'; }
+.fa-arrow-right::before { content: '\f061'; }
+.fa-share-nodes::before { content: '\f1e0'; }
+
+/* Fallback para iconos no disponibles */
+.fas::before, .fa-solid::before {
+    content: '●';
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+} 

@@ -3,28 +3,52 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializar GSAP ScrollTrigger
     gsap.registerPlugin(ScrollTrigger);
     
-    // Inicializar AOS (Animate On Scroll)
-    AOS.init({
-        duration: 1000,
-        easing: 'ease-in-out',
-        once: true,
-        offset: 100
-    });
-    
     // Inicializar todas las funcionalidades
+    initPreloader();
     initHeader();
     initHeroAnimations();
     initScrollAnimations();
-    initContactForm();
-    initBackToTop();
+    initParallaxEffects();
+    initMagicCursor();
     initMobileMenu();
     initSmoothScrolling();
-    initParallaxEffects();
+    initOverlappingGallery();
+    initPinnedSections();
+    initTextAnimations();
+    initButtonEffects();
 });
+
+// ===== PRELOADER =====
+function initPreloader() {
+    const preloader = document.querySelector('.preloader-wrap');
+    const loadbar = document.querySelector('.loadbar');
+    const percentage = document.getElementById('precent');
+    
+    if (preloader && loadbar && percentage) {
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += Math.random() * 15;
+            if (progress > 100) progress = 100;
+            
+            loadbar.style.width = progress + '%';
+            percentage.textContent = Math.floor(progress);
+            
+            if (progress >= 100) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    preloader.classList.add('hidden');
+                    document.body.style.overflow = 'visible';
+                }, 500);
+            }
+        }, 100);
+    }
+}
 
 // ===== HEADER Y NAVEGACIÓN =====
 function initHeader() {
-    const header = document.querySelector('.header');
+    const header = document.querySelector('.fullscreen-menu');
+    const nav = document.querySelector('nav');
+    const menuBurger = document.getElementById('menu-burger');
     let lastScrollTop = 0;
     
     // Efecto de header al hacer scroll
@@ -33,55 +57,42 @@ function initHeader() {
         
         if (scrollTop > 100) {
             header.style.background = 'rgba(12, 12, 12, 0.98)';
-            header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.3)';
+            header.style.backdropFilter = 'blur(10px)';
         } else {
-            header.style.background = 'rgba(12, 12, 12, 0.95)';
-            header.style.boxShadow = 'none';
-        }
-        
-        // Ocultar/mostrar header al hacer scroll
-        if (scrollTop > lastScrollTop && scrollTop > 200) {
-            header.style.transform = 'translateY(-100%)';
-        } else {
-            header.style.transform = 'translateY(0)';
+            header.style.background = 'transparent';
+            header.style.backdropFilter = 'none';
         }
         
         lastScrollTop = scrollTop;
     });
     
     // Animación de entrada del header
-    gsap.from('.header', {
-        y: -100,
+    gsap.from('#header-container', {
+        y: -50,
         opacity: 0,
         duration: 1,
+        delay: 1,
         ease: 'power2.out'
     });
     
-    // Animación de los elementos del header
-    gsap.from('#logo', {
-        x: -50,
-        opacity: 0,
-        duration: 0.8,
-        delay: 0.2,
-        ease: 'power2.out'
-    });
-    
-    gsap.from('.nav-menu li', {
-        y: -30,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.1,
-        delay: 0.4,
-        ease: 'power2.out'
-    });
-    
-    gsap.from('.button-wrap', {
-        x: 50,
-        opacity: 0,
-        duration: 0.8,
-        delay: 0.6,
-        ease: 'power2.out'
-    });
+    // Menú móvil
+    if (menuBurger) {
+        menuBurger.addEventListener('click', () => {
+            menuBurger.classList.toggle('active');
+            nav.classList.toggle('active');
+            
+            if (nav.classList.contains('active')) {
+                // Animación de entrada del menú
+                gsap.from('.flexnav li', {
+                    y: 50,
+                    opacity: 0,
+                    duration: 0.6,
+                    stagger: 0.1,
+                    ease: 'power2.out'
+                });
+            }
+        });
+    }
 }
 
 // ===== ANIMACIONES DEL HERO =====
@@ -102,14 +113,14 @@ function initHeroAnimations() {
             ease: 'power2.out'
         })
         .to(titleSpans, {
-            color: '#e50914',
+            color: '#ff3e3e',
             duration: 0.3,
             stagger: 0.02,
             ease: 'power2.inOut'
         }, '-=0.5');
     
     // Animación del subtítulo
-    gsap.from('.hero-subtitle', {
+    gsap.from('.hero-subtitle span', {
         y: 50,
         opacity: 0,
         duration: 1,
@@ -117,17 +128,8 @@ function initHeroAnimations() {
         ease: 'power2.out'
     });
     
-    // Animación de los botones
-    gsap.from('.hero-buttons', {
-        y: 50,
-        opacity: 0,
-        duration: 1,
-        delay: 2.5,
-        ease: 'power2.out'
-    });
-    
-    // Animación del indicador de scroll
-    gsap.from('.scroll-indicator', {
+    // Animación del footer del hero
+    gsap.from('#hero-footer', {
         y: 30,
         opacity: 0,
         duration: 1,
@@ -136,11 +138,11 @@ function initHeroAnimations() {
     });
     
     // Efecto parallax en el fondo del hero
-    gsap.to('.hero-bg-image', {
+    gsap.to('#hero-styles', {
         y: -100,
         ease: 'none',
         scrollTrigger: {
-            trigger: '.hero-section',
+            trigger: '#hero',
             start: 'top bottom',
             end: 'bottom top',
             scrub: true
@@ -150,86 +152,112 @@ function initHeroAnimations() {
 
 // ===== ANIMACIONES DE SCROLL =====
 function initScrollAnimations() {
-    // Animación de las tarjetas de servicios
-    gsap.from('.service-card', {
+    // Animación de las imágenes superpuestas
+    gsap.from('.overlapping-image', {
         y: 100,
         opacity: 0,
-        duration: 0.8,
+        duration: 1,
         stagger: 0.2,
         ease: 'power2.out',
         scrollTrigger: {
-            trigger: '.services-grid',
+            trigger: '.overlapping-gallery',
             start: 'top 80%',
             end: 'bottom 20%',
             toggleActions: 'play none none reverse'
         }
     });
     
-    // Animación del título de sección
-    gsap.from('.section-title', {
+    // Animación del título principal
+    gsap.from('.primary-font-title-hero', {
         y: 50,
         opacity: 0,
         duration: 1,
         ease: 'power2.out',
         scrollTrigger: {
-            trigger: '.section-header',
+            trigger: '.primary-font-title-hero',
             start: 'top 80%',
             end: 'bottom 20%',
             toggleActions: 'play none none reverse'
         }
     });
     
-    // Animación del subtítulo de sección
-    gsap.from('.section-subtitle', {
+    // Animación del texto con opacidad
+    gsap.from('.has-opacity span', {
+        opacity: 0,
+        duration: 0.5,
+        stagger: 0.05,
+        ease: 'power2.out',
+        scrollTrigger: {
+            trigger: '.has-opacity',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse'
+        }
+    });
+    
+    // Animación de los botones
+    gsap.from('.button-box', {
         y: 30,
         opacity: 0,
-        duration: 1,
-        delay: 0.3,
+        duration: 0.8,
         ease: 'power2.out',
         scrollTrigger: {
-            trigger: '.section-header',
+            trigger: '.button-box',
             start: 'top 80%',
             end: 'bottom 20%',
             toggleActions: 'play none none reverse'
         }
     });
     
-    // Animación de la sección CTA
-    gsap.from('.cta-content', {
+    // Animación de las secciones fijas
+    gsap.from('.pinned-element', {
+        x: -100,
+        opacity: 0,
+        duration: 1,
+        ease: 'power2.out',
+        scrollTrigger: {
+            trigger: '.pinned-section',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse'
+        }
+    });
+    
+    gsap.from('.scrolling-element', {
+        x: 100,
+        opacity: 0,
+        duration: 1,
+        ease: 'power2.out',
+        scrollTrigger: {
+            trigger: '.pinned-section',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse'
+        }
+    });
+    
+    // Animación del título en movimiento
+    gsap.from('.title-moving-forward', {
         y: 50,
         opacity: 0,
         duration: 1,
         ease: 'power2.out',
         scrollTrigger: {
-            trigger: '.cta-section',
+            trigger: '.title-moving-outer',
             start: 'top 80%',
             end: 'bottom 20%',
             toggleActions: 'play none none reverse'
         }
     });
     
-    // Animación de los elementos de contacto
-    gsap.from('.contact-item', {
-        x: -50,
+    // Animación de la navegación de página
+    gsap.from('.page-nav-caption', {
+        y: 50,
         opacity: 0,
-        duration: 0.8,
-        stagger: 0.2,
+        duration: 1,
         ease: 'power2.out',
         scrollTrigger: {
-            trigger: '.contact-info',
-            start: 'top 80%',
-            end: 'bottom 20%',
-            toggleActions: 'play none none reverse'
-        }
-    });
-    
-    gsap.from('.contact-form', {
-        x: 50,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power2.out',
-        scrollTrigger: {
-            trigger: '.contact-form',
+            trigger: '#page-nav',
             start: 'top 80%',
             end: 'bottom 20%',
             toggleActions: 'play none none reverse'
@@ -240,12 +268,12 @@ function initScrollAnimations() {
 // ===== EFECTOS PARALLAX =====
 function initParallaxEffects() {
     // Efecto parallax en elementos de fondo
-    gsap.utils.toArray('.service-card').forEach(card => {
-        gsap.to(card, {
+    gsap.utils.toArray('.parallax-element').forEach(element => {
+        gsap.to(element, {
             y: -50,
             ease: 'none',
             scrollTrigger: {
-                trigger: card,
+                trigger: element,
                 start: 'top bottom',
                 end: 'bottom top',
                 scrub: 1
@@ -253,13 +281,13 @@ function initParallaxEffects() {
         });
     });
     
-    // Efecto parallax en iconos de servicios
-    gsap.utils.toArray('.service-icon').forEach(icon => {
-        gsap.to(icon, {
-            rotation: 360,
+    // Efecto parallax en imágenes
+    gsap.utils.toArray('.scrolling-element img').forEach(img => {
+        gsap.to(img, {
+            y: -100,
             ease: 'none',
             scrollTrigger: {
-                trigger: icon,
+                trigger: img,
                 start: 'top bottom',
                 end: 'bottom top',
                 scrub: 2
@@ -268,79 +296,48 @@ function initParallaxEffects() {
     });
 }
 
-// ===== FORMULARIO DE CONTACTO =====
-function initContactForm() {
-    const contactForm = document.getElementById('contactForm');
+// ===== CURSOR MÁGICO =====
+function initMagicCursor() {
+    const cursor = document.getElementById('ball');
+    const cursorLoader = document.getElementById('ball-loader');
     
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Obtener datos del formulario
-            const formData = new FormData(contactForm);
-            const data = Object.fromEntries(formData);
-            
-            // Validación básica
-            if (!data.nombre || !data.email || !data.mensaje) {
-                showNotification('Por favor, completa todos los campos requeridos.', 'error');
-                return;
-            }
-            
-            // Simular envío (aquí iría la lógica real de envío)
-            showNotification('Enviando mensaje...', 'info');
-            
-            setTimeout(() => {
-                showNotification('¡Mensaje enviado con éxito! Te contactaremos pronto.', 'success');
-                contactForm.reset();
-            }, 2000);
+    if (cursor) {
+        let mouseX = 0;
+        let mouseY = 0;
+        let cursorX = 0;
+        let cursorY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
         });
         
-        // Animación de los campos del formulario
-        gsap.from('.form-group', {
-            y: 30,
-            opacity: 0,
-            duration: 0.6,
-            stagger: 0.1,
-            ease: 'power2.out',
-            scrollTrigger: {
-                trigger: '.contact-form',
-                start: 'top 80%',
-                end: 'bottom 20%',
-                toggleActions: 'play none none reverse'
-            }
-        });
-    }
-}
-
-// ===== BOTÓN BACK TO TOP =====
-function initBackToTop() {
-    const backToTopBtn = document.getElementById('backToTop');
-    
-    if (backToTopBtn) {
-        // Mostrar/ocultar botón según scroll
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                backToTopBtn.style.opacity = '1';
-                backToTopBtn.style.pointerEvents = 'auto';
-            } else {
-                backToTopBtn.style.opacity = '0';
-                backToTopBtn.style.pointerEvents = 'none';
-            }
-        });
+        // Animación suave del cursor
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.1;
+            cursorY += (mouseY - cursorY) * 0.1;
+            
+            cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+            requestAnimationFrame(animateCursor);
+        }
         
-        // Scroll suave al hacer clic
-        backToTopBtn.addEventListener('click', () => {
-            gsap.to(window, {
-                duration: 1.5,
-                scrollTo: { y: 0 },
-                ease: 'power2.inOut'
+        animateCursor();
+        
+        // Efectos hover en elementos interactivos
+        const interactiveElements = document.querySelectorAll('a, button, .overlapping-image, .slide-link');
+        
+        interactiveElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) scale(2)`;
+                cursor.style.borderColor = '#ff3e3e';
+                cursor.style.background = 'rgba(255, 62, 62, 0.1)';
             });
-        });
-        
-        // Animación del botón
-        gsap.set(backToTopBtn, {
-            opacity: 0,
-            pointerEvents: 'none'
+            
+            element.addEventListener('mouseleave', () => {
+                cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) scale(1)`;
+                cursor.style.borderColor = '#ffffff';
+                cursor.style.background = 'transparent';
+            });
         });
     }
 }
@@ -348,14 +345,13 @@ function initBackToTop() {
 // ===== MENÚ MÓVIL =====
 function initMobileMenu() {
     const menuBurger = document.getElementById('menu-burger');
-    const nav = document.querySelector('.nav');
+    const nav = document.querySelector('nav');
     
-    if (menuBurger) {
+    if (menuBurger && nav) {
         menuBurger.addEventListener('click', () => {
             menuBurger.classList.toggle('active');
             nav.classList.toggle('active');
             
-            // Animación del menú
             if (nav.classList.contains('active')) {
                 gsap.to(nav, {
                     opacity: 1,
@@ -364,10 +360,10 @@ function initMobileMenu() {
                     ease: 'power2.out'
                 });
                 
-                gsap.from('.nav-menu li', {
-                    y: -30,
+                gsap.from('.flexnav li', {
+                    y: 50,
                     opacity: 0,
-                    duration: 0.4,
+                    duration: 0.6,
                     stagger: 0.1,
                     ease: 'power2.out'
                 });
@@ -402,22 +398,185 @@ function initSmoothScrolling() {
     });
     
     // Scroll suave para el indicador de scroll
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-    if (scrollIndicator) {
-        scrollIndicator.addEventListener('click', () => {
+    const scrollDown = document.querySelector('.scroll-down');
+    if (scrollDown) {
+        scrollDown.addEventListener('click', () => {
             gsap.to(window, {
                 duration: 1.5,
-                scrollTo: { y: '#servicios', offsetY: 80 },
+                scrollTo: { y: '#main-content', offsetY: 80 },
+                ease: 'power2.inOut'
+            });
+        });
+    }
+    
+    // Scroll suave para el botón back to top
+    const backToTop = document.getElementById('backtotop');
+    if (backToTop) {
+        backToTop.addEventListener('click', () => {
+            gsap.to(window, {
+                duration: 1.5,
+                scrollTo: { y: 0 },
                 ease: 'power2.inOut'
             });
         });
     }
 }
 
-// ===== EFECTOS HOVER =====
-function initHoverEffects() {
-    // Efecto hover en botones
-    document.querySelectorAll('.btn').forEach(btn => {
+// ===== GALERÍA SUPERPUESTA =====
+function initOverlappingGallery() {
+    const overlappingImages = document.querySelectorAll('.overlapping-image');
+    
+    overlappingImages.forEach(image => {
+        const largeImg = image.querySelector('.grid__item-img--large');
+        const smallImg = image.querySelector('.item-image');
+        
+        if (largeImg && smallImg) {
+            image.addEventListener('mouseenter', () => {
+                gsap.to(largeImg, {
+                    opacity: 1,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+                
+                gsap.to(image, {
+                    scale: 1.05,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+            
+            image.addEventListener('mouseleave', () => {
+                gsap.to(largeImg, {
+                    opacity: 0,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+                
+                gsap.to(image, {
+                    scale: 1,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+        }
+    });
+}
+
+// ===== SECCIONES FIJAS =====
+function initPinnedSections() {
+    const pinnedSections = document.querySelectorAll('.pinned-section');
+    
+    pinnedSections.forEach(section => {
+        const pinnedElement = section.querySelector('.pinned-element');
+        const scrollingElement = section.querySelector('.scrolling-element');
+        
+        if (pinnedElement && scrollingElement) {
+            // Efecto parallax en elementos fijos
+            gsap.to(pinnedElement, {
+                y: -100,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 1
+                }
+            });
+            
+            // Efecto parallax en elementos de desplazamiento
+            gsap.to(scrollingElement, {
+                y: 100,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 1
+                }
+            });
+        }
+    });
+}
+
+// ===== ANIMACIONES DE TEXTO =====
+function initTextAnimations() {
+    // Animación de letras individuales en títulos
+    document.querySelectorAll('.primary-font-title-hero').forEach(title => {
+        const text = title.textContent;
+        title.innerHTML = '';
+        
+        text.split('').forEach((char, index) => {
+            const span = document.createElement('span');
+            span.textContent = char;
+            span.style.opacity = '0';
+            span.style.transform = 'translateY(20px)';
+            title.appendChild(span);
+            
+            gsap.to(span, {
+                opacity: 1,
+                y: 0,
+                duration: 0.5,
+                delay: index * 0.05,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: title,
+                    start: 'top 80%',
+                    end: 'bottom 20%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+        });
+    });
+    
+    // Efecto de escritura en el hero title
+    const heroTitle = document.querySelector('.hero-title');
+    if (heroTitle) {
+        const spans = heroTitle.querySelectorAll('span');
+        spans.forEach((span, index) => {
+            span.addEventListener('mouseenter', function() {
+                gsap.to(this, {
+                    y: -5,
+                    scale: 1.1,
+                    color: '#00d4ff',
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+            
+            span.addEventListener('mouseleave', function() {
+                gsap.to(this, {
+                    y: 0,
+                    scale: 1,
+                    color: '#ff3e3e',
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+        });
+    }
+    
+    // Animación del título en movimiento
+    const movingTitle = document.querySelector('.title-moving-forward');
+    if (movingTitle) {
+        gsap.to(movingTitle, {
+            x: '-100%',
+            duration: 20,
+            ease: 'none',
+            repeat: -1,
+            scrollTrigger: {
+                trigger: movingTitle,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 1
+            }
+        });
+    }
+}
+
+// ===== EFECTOS DE BOTONES =====
+function initButtonEffects() {
+    // Efecto hover en botones con animación de escala
+    document.querySelectorAll('.button-border, .slide-link').forEach(btn => {
         btn.addEventListener('mouseenter', function() {
             gsap.to(this, {
                 scale: 1.05,
@@ -435,165 +594,46 @@ function initHoverEffects() {
         });
     });
     
-    // Efecto hover en tarjetas de servicios
-    document.querySelectorAll('.service-card').forEach(card => {
-        card.addEventListener('mouseenter', function() {
+    // Efecto hover en elementos de navegación
+    document.querySelectorAll('.flexnav a').forEach(link => {
+        link.addEventListener('mouseenter', function() {
             gsap.to(this, {
-                y: -10,
+                color: '#ff3e3e',
                 duration: 0.3,
                 ease: 'power2.out'
             });
         });
         
-        card.addEventListener('mouseleave', function() {
+        link.addEventListener('mouseleave', function() {
             gsap.to(this, {
-                y: 0,
+                color: '#ffffff',
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        });
+    });
+    
+    // Efecto hover en iconos
+    document.querySelectorAll('.nav-icons a').forEach(icon => {
+        icon.addEventListener('mouseenter', function() {
+            gsap.to(this, {
+                scale: 1.1,
+                color: '#ff3e3e',
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        });
+        
+        icon.addEventListener('mouseleave', function() {
+            gsap.to(this, {
+                scale: 1,
+                color: '#ffffff',
                 duration: 0.3,
                 ease: 'power2.out'
             });
         });
     });
 }
-
-// ===== NOTIFICACIONES =====
-function showNotification(message, type = 'info') {
-    // Crear elemento de notificación
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.innerHTML = `
-        <div class="notification-content">
-            <span class="notification-message">${message}</span>
-            <button class="notification-close">&times;</button>
-        </div>
-    `;
-    
-    // Estilos de la notificación
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#f44336' : '#2196F3'};
-        color: white;
-        padding: 15px 20px;
-        border-radius: 5px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        z-index: 10000;
-        transform: translateX(400px);
-        transition: transform 0.3s ease;
-        max-width: 300px;
-    `;
-    
-    // Agregar al DOM
-    document.body.appendChild(notification);
-    
-    // Animación de entrada
-    setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-    }, 100);
-    
-    // Cerrar notificación
-    const closeBtn = notification.querySelector('.notification-close');
-    closeBtn.addEventListener('click', () => {
-        notification.style.transform = 'translateX(400px)';
-        setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 300);
-    });
-    
-    // Auto-cerrar después de 5 segundos
-    setTimeout(() => {
-        if (document.body.contains(notification)) {
-            notification.style.transform = 'translateX(400px)';
-            setTimeout(() => {
-                if (document.body.contains(notification)) {
-                    document.body.removeChild(notification);
-                }
-            }, 300);
-        }
-    }, 5000);
-}
-
-// ===== EFECTOS DE PARTÍCULAS (OPCIONAL) =====
-function initParticleEffects() {
-    // Crear canvas para partículas
-    const canvas = document.createElement('canvas');
-    canvas.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 1;
-        opacity: 0.3;
-    `;
-    document.body.appendChild(canvas);
-    
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    
-    // Configuración de partículas
-    const particles = [];
-    const particleCount = 50;
-    
-    class Particle {
-        constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.vx = (Math.random() - 0.5) * 0.5;
-            this.vy = (Math.random() - 0.5) * 0.5;
-            this.size = Math.random() * 2 + 1;
-            this.color = '#e50914';
-        }
-        
-        update() {
-            this.x += this.vx;
-            this.y += this.vy;
-            
-            if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-            if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-        }
-        
-        draw() {
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fillStyle = this.color;
-            ctx.fill();
-        }
-    }
-    
-    // Crear partículas
-    for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-    }
-    
-    // Función de animación
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        particles.forEach(particle => {
-            particle.update();
-            particle.draw();
-        });
-        
-        requestAnimationFrame(animate);
-    }
-    
-    animate();
-    
-    // Redimensionar canvas
-    window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    });
-}
-
-// ===== INICIALIZAR EFECTOS ADICIONALES =====
-document.addEventListener('DOMContentLoaded', function() {
-    initHoverEffects();
-    // initParticleEffects(); // Descomentar para activar partículas
-});
 
 // ===== UTILIDADES =====
 function debounce(func, wait) {
@@ -614,3 +654,28 @@ const optimizedScrollHandler = debounce(() => {
 }, 16);
 
 window.addEventListener('scroll', optimizedScrollHandler);
+
+// ===== INICIALIZACIÓN ADICIONAL =====
+window.addEventListener('load', function() {
+    // Ocultar preloader después de que todo esté cargado
+    const preloader = document.querySelector('.preloader-wrap');
+    if (preloader) {
+        setTimeout(() => {
+            preloader.classList.add('hidden');
+        }, 1000);
+    }
+    
+    // Inicializar efectos adicionales
+    initAdditionalEffects();
+});
+
+function initAdditionalEffects() {
+    // Efectos de partículas en el fondo (opcional)
+    // initParticleEffects();
+    
+    // Efectos de distorsión de imagen (opcional)
+    // initImageDistortion();
+    
+    // Efectos de sonido (opcional)
+    // initSoundEffects();
+}

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - NeuroStrengthAI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0c0c0c;
+            color: white;
+            text-align: center;
+            padding: 50px;
+        }
+        .test-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .status {
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .success { background: #4CAF50; }
+        .error { background: #f44336; }
+        .warning { background: #ff9800; }
+    </style>
+</head>
+<body>
+    <div class="test-content">
+        <h1>Test de Carga - NeuroStrengthAI</h1>
+        
+        <div id="status-container">
+            <div class="status">Verificando recursos...</div>
+        </div>
+        
+        <div id="results">
+            <h2>Resultados de la Verificación:</h2>
+            <ul id="results-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        const results = [];
+        
+        function addResult(message, type = 'info') {
+            results.push({ message, type });
+            updateDisplay();
+        }
+        
+        function updateDisplay() {
+            const container = document.getElementById('status-container');
+            const list = document.getElementById('results-list');
+            
+            container.innerHTML = '';
+            list.innerHTML = '';
+            
+            results.forEach(result => {
+                const div = document.createElement('div');
+                div.className = `status ${result.type}`;
+                div.textContent = result.message;
+                container.appendChild(div);
+                
+                const li = document.createElement('li');
+                li.textContent = result.message;
+                li.style.color = result.type === 'success' ? '#4CAF50' : 
+                               result.type === 'error' ? '#f44336' : '#ff9800';
+                list.appendChild(li);
+            });
+        }
+        
+        // Verificar recursos
+        async function checkResources() {
+            addResult('Iniciando verificación de recursos...', 'info');
+            
+            // Verificar archivos principales
+            const files = [
+                'index.html',
+                'style.css',
+                'js/scripts.js',
+                'js/clapat.js',
+                'js/plugins.js',
+                'js/common.js',
+                'js/contact.js',
+                'js/bundle.js'
+            ];
+            
+            for (const file of files) {
+                try {
+                    const response = await fetch(file);
+                    if (response.ok) {
+                        addResult(`✅ ${file} - OK`, 'success');
+                    } else {
+                        addResult(`❌ ${file} - Error ${response.status}`, 'error');
+                    }
+                } catch (error) {
+                    addResult(`❌ ${file} - No encontrado`, 'error');
+                }
+            }
+            
+            // Verificar CDNs
+            const cdns = [
+                'https://code.jquery.com/jquery-3.6.0.min.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js'
+            ];
+            
+            for (const cdn of cdns) {
+                try {
+                    const response = await fetch(cdn);
+                    if (response.ok) {
+                        addResult(`✅ CDN ${cdn.split('/').pop()} - OK`, 'success');
+                    } else {
+                        addResult(`❌ CDN ${cdn.split('/').pop()} - Error ${response.status}`, 'error');
+                    }
+                } catch (error) {
+                    addResult(`❌ CDN ${cdn.split('/').pop()} - No disponible`, 'warning');
+                }
+            }
+            
+            addResult('Verificación completada', 'success');
+        }
+        
+        // Ejecutar verificación
+        checkResources();
+    </script>
+</body>
+</html> 

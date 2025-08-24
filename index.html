@@ -1,305 +1,576 @@
 <!DOCTYPE html>
-<html lang="es" class="js">
+<html lang="es" class="js js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths">
 <head>
-    <meta charset="UTF-8">
+    <title>NeuroStrengthAI</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroStrengthAI - Potencia tu negocio con IA</title>
-    <meta name="description" content="Potencia tu negocio con inteligencia artificial de última generación. Automatización, análisis predictivo y soluciones IA personalizadas.">
+    <meta name="description" content="Potenciando negocios con IA">
     <meta name="author" content="NeuroStrengthAI">
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-ico" href="images/favicon.ico">
 
-    <!-- Fuentes -->
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet"> 
-    <link href="https://fonts.googleapis.com/css2?family=Six+Caps&display=swap" rel="stylesheet">
-    
-    <!-- CSS -->
     <link href="style.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Six+Caps&display=swap" rel="stylesheet">
     
     <script>
         document.documentElement.className = "js";
+        var supportsCssVars = function() {
+            var e, t = document.createElement("style");
+            return (
+                (t.innerHTML = "root: { --tmp-var: bold; }"),
+                document.head.appendChild(t),
+                (e = !!(
+                    window.CSS &&
+                    window.CSS.supports &&
+                    window.CSS.supports("font-weight", "var(--tmp-var)")
+                )),
+                t.parentNode.removeChild(t),
+                e
+            );
+        };
+        supportsCssVars() ||
+            alert(
+                "Please view this demo in a modern browser that supports CSS Variables."
+            );
     </script>
 </head>
 
-<body class="smooth-scroll" data-primary-color="#e50914">
+<body class="smooth-scroll1 rounded-borders header-visible" data-primary-color="#ff3e3e" style="">
     
-    <!-- Header -->
-    <header class="header" data-menucolor="#0c0c0c">
-        <div id="header-container">
-            
-            <!-- Logo -->
-            <div id="logo" class="hide-ball">
-                <a href="#inicio">
-                    <img class="black-logo" src="images/logo.png" alt="NeuroStrengthAI Logo">
-                    <img class="white-logo" src="images/logo-white.png" alt="NeuroStrengthAI Logo">
-                </a>
-            </div>
-            <!--/Logo -->
-            
-            <!-- Navigation -->
-            <nav class="nav">
-                <div class="nav-height">
-                    <div class="outer">
-                        <div class="inner">
-                            <ul class="nav-menu">
-                                <li class="nav-item"><a href="#inicio" class="nav-link"><span data-hover="INICIO">INICIO</span></a></li>
-                                <li class="nav-item"><a href="#servicios" class="nav-link"><span data-hover="SERVICIOS">SERVICIOS</span></a></li>
-                                <li class="nav-item"><a href="#contacto" class="nav-link"><span data-hover="CONTACTO">CONTACTO</span></a></li>
-                            </ul>            
+    <main style="background-color: rgb(12, 12, 12);">
+        
+        <!-- Preloader -->
+        <div class="preloader-wrap" data-centerline="Cargando">
+            <div class="outer">
+                <div class="inner">
+                    <div class="trackbar">
+                        <div class="preloader-intro">
+                            <span>Cargando</span>
                         </div>
-                    </div> 
-                </div>          
-            </nav>
-            <!--/Navigation -->
-            
-            <!-- Menu Burger -->
-            <div class="button-wrap right menu burger-lines">
-                <div class="nav-icons">
-                    <a href="tel:+34600000000" class="phone-icon">
-                        <i class="fas fa-phone"></i>
-                    </a>
-                    <a href="mailto:info@neurostrengthai.com" class="email-icon">
-                        <i class="fas fa-envelope"></i>
-                    </a>
-                </div>
-                <div class="icon-wrap">
-                    <div class="button-icon">
-                        <div id="menu-burger">
-                            <span></span>
-                            <span></span>
-                            <span></span>
+                        <div class="loadbar"></div>
+                        <div class="percentage-wrapper">
+                            <div class="percentage" id="precent">100</div>
                         </div>
                     </div>
+                    <div class="logo-container">
+                        <div class="logo-symbol">
+                            <div class="logo-blob logo-blob-1"></div>
+                            <div class="logo-blob logo-blob-2"></div>
+                            <div class="logo-blob logo-blob-3"></div>
+                            <div class="logo-blob logo-blob-4"></div>
+                        </div>
+                        <div class="logo-text">neurostrengthAI</div>
+                    </div>
+                    <div class="percentage-intro">Espere, el contenido se está cargando.</div>
                 </div>
-                <div class="button-text sticky right"><span data-hover="Menu">Menu</span></div> 
             </div>
-            <!--/Menu Burger -->
         </div>
-    </header>
-    <!--/Header -->
-    
-    <!-- Main Content -->
-    <main id="main">
+        <!--/Preloader -->
         
-        <!-- Hero Section -->
-        <section id="hero" class="hero-section">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1 class="hero-title">
-                        <span>P</span><span>O</span><span>T</span><span>E</span><span>N</span><span>C</span><span>I</span><span>A</span>
-                        <span>T</span><span>U</span>
-                        <span>N</span><span>E</span><span>G</span><span>O</span><span>C</span><span>I</span><span>O</span>
-                        <span>C</span><span>O</span><span>N</span>
-                        <span>I</span><span>A</span>
-                    </h1>
-                    <p class="hero-subtitle">Innovación y fuerza para tu negocio con inteligencia artificial de última generación</p>
-                    <div class="hero-buttons">
-                        <a href="#contacto" class="btn btn-primary">Reserva una demo</a>
-                        <a href="#servicios" class="btn btn-secondary">Conoce nuestros servicios</a>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-background">
-                <div class="hero-bg-image"></div>
-                <div class="hero-overlay"></div>
-            </div>
-            <div class="scroll-indicator">
-                <div class="scroll-arrow">
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <span>Scroll</span>
-            </div>
-        </section>
-        <!--/Hero Section -->
-        
-        <!-- Servicios Section -->
-        <section id="servicios" class="services-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Nuestros Servicios</h2>
-                    <p class="section-subtitle">Soluciones de IA personalizadas para impulsar tu negocio</p>
-                </div>
+        <div class="cd-index cd-main-content">
+            
+            <!-- Page Content -->
+            <div id="clapat-page-content" class="light-content" data-bgcolor="#0c0c0c">
                 
-                <div class="services-grid">
-                    <div class="service-card" data-aos="fade-up" data-aos-delay="100">
-                        <div class="service-icon">
-                            <i class="fas fa-robot"></i>
+                <!-- Header -->
+                <header class="fullscreen-menu invert-header" data-menucolor="#0c0c0c" style="background-color: transparent;">
+                    <div id="header-container" style="opacity: 1;">
+                        
+                        <!-- Logo -->
+                        <div id="logo" class="hide-ball">
+                            <a class="ajax-link" data-type="page-transition" href="/">
+                                <div class="logo-container">
+                                    <div class="logo-symbol">
+                                        <div class="logo-blob logo-blob-1"></div>
+                                        <div class="logo-blob logo-blob-2"></div>
+                                        <div class="logo-blob logo-blob-3"></div>
+                                        <div class="logo-blob logo-blob-4"></div>
+                                    </div>
+                                    <div class="logo-text">neurostrengthAI</div>
+                                </div>
+                            </a>
                         </div>
-                        <h3 class="service-title">Automatización Inteligente</h3>
-                        <p class="service-description">Automatiza procesos complejos con IA para aumentar la eficiencia y reducir costos operativos.</p>
-                    </div>
-                    
-                    <div class="service-card" data-aos="fade-up" data-aos-delay="200">
-                        <div class="service-icon">
-                            <i class="fas fa-chart-line"></i>
+                        <!--/Logo -->
+                        
+                        <!-- Navigation -->
+                        <nav style="background-color: rgb(12, 12, 12); opacity: 0;">
+                            <div class="nav-height">
+                                <div class="outer">
+                                    <div class="inner">
+                                        <ul data-breakpoint="10025" class="flexnav with-js opacity sm-screen">
+                                            <li class="link menu-timeline">
+                                                <a class="" href="#servicios">
+                                                    <div class="before-span">
+                                                        <span data-hover="SERVICIOS IA">SERVICIOS IA</span>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="link menu-timeline">
+                                                <a class="" href="#soluciones">
+                                                    <div class="before-span">
+                                                        <span data-hover="SOLUCIONES">SOLUCIONES</span>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="link menu-timeline">
+                                                <a class="" href="#contacto">
+                                                    <div class="before-span">
+                                                        <span data-hover="CONTACTO">CONTACTO</span>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </nav>
+                        <!--/Navigation -->
+                        
+                        <!-- Menu Burger -->
+                        <div class="button-wrap right menu burger-lines">
+                            <!--Iconos de teléfono y correo-->
+                            <div class="nav-icons">
+                                <a href="javascript:void(0);" class="phone-icon" onclick="selectPhoneNumber()">
+                                    <i class="fas fa-phone"></i>
+                                </a>
+                                <a href="mailto:info@neurostrengthai.com" class="email-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            </div>
+                            <!--Iconos de teléfono y correo-->
+                            <div class="icon-wrap parallax-wrap">
+                                <div class="button-icon parallax-element">
+                                    <div id="burger-wrapper">
+                                        <div id="menu-burger">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                        <span class="touch-button"><i class="navicon">▼</i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="button-text sticky right"><span data-hover="Menu">Menu</span></div>
                         </div>
-                        <h3 class="service-title">Análisis Predictivo</h3>
-                        <p class="service-description">Anticipa tendencias y comportamientos del mercado con algoritmos de machine learning avanzados.</p>
+                        <!--/Menu Burger -->
                     </div>
-                    
-                    <div class="service-card" data-aos="fade-up" data-aos-delay="300">
-                        <div class="service-icon">
-                            <i class="fas fa-comments"></i>
-                        </div>
-                        <h3 class="service-title">Chatbots Inteligentes</h3>
-                        <p class="service-description">Atiende a tus clientes 24/7 con chatbots que entienden el contexto y resuelven consultas complejas.</p>
-                    </div>
-                    
-                    <div class="service-card" data-aos="fade-up" data-aos-delay="400">
-                        <div class="service-icon">
-                            <i class="fas fa-brain"></i>
-                        </div>
-                        <h3 class="service-title">Procesamiento de Datos</h3>
-                        <p class="service-description">Extrae insights valiosos de grandes volúmenes de datos para tomar decisiones informadas.</p>
-                    </div>
-                    
-                    <div class="service-card" data-aos="fade-up" data-aos-delay="500">
-                        <div class="service-icon">
-                            <i class="fas fa-cogs"></i>
-                        </div>
-                        <h3 class="service-title">Integración de Sistemas</h3>
-                        <p class="service-description">Conecta y optimiza todos tus sistemas empresariales con soluciones IA personalizadas.</p>
-                    </div>
-                    
-                    <div class="service-card" data-aos="fade-up" data-aos-delay="600">
-                        <div class="service-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h3 class="service-title">Seguridad IA</h3>
-                        <p class="service-description">Protege tu empresa con sistemas de seguridad basados en inteligencia artificial.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--/Servicios Section -->
-        
-        <!-- CTA Section -->
-        <section class="cta-section">
-            <div class="container">
-                <div class="cta-content">
-                    <h2 class="cta-title">¿Listo para transformar tu negocio?</h2>
-                    <p class="cta-subtitle">Descubre cómo la IA puede revolucionar tu empresa en solo 30 minutos</p>
-                    <a href="#contacto" class="btn btn-primary btn-large">Reserva una demo gratuita</a>
-                </div>
-            </div>
-        </section>
-        <!--/CTA Section -->
-        
-        <!-- Contacto Section -->
-        <section id="contacto" class="contact-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Contacto</h2>
-                    <p class="section-subtitle">Estamos aquí para ayudarte a alcanzar el siguiente nivel</p>
-                </div>
+                </header>
+                <!--/Header -->
                 
-                <div class="contact-content">
-                    <div class="contact-info">
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h4>Email</h4>
-                                <p>info@neurostrengthai.com</p>
-                            </div>
-                        </div>
-                        
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-phone"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h4>Teléfono</h4>
-                                <p>+34 600 000 000</p>
-                            </div>
-                        </div>
-                        
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h4>Ubicación</h4>
-                                <p>Madrid, España</p>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Content Scroll -->
+                <div id="content-scroll">
                     
-                    <div class="contact-form">
-                        <form id="contactForm">
-                            <div class="form-group">
-                                <input type="text" id="nombre" name="nombre" placeholder="Nombre completo" required>
+                    <!-- Main -->
+                    <div id="main">
+                        
+                        <!-- Hero Section -->
+                        <div id="hero" class="frame">
+                            <div id="hero-styles">
+                                <div id="hero-caption" class="content-full-width parallax-scroll-caption text-align-center height-title" style="height: 824px;">
+                                    <div class="inner">
+                                        <h1 class="hero-title caption-timeline primary-font-title-hero">
+                                            <div>
+                                                <span>P</span><span>O</span><span>T</span><span>E</span><span>N</span><span>C</span><span>I</span><span>A</span>
+                                            </div>
+                                            <div><span></span></div>
+                                            <div>
+                                                <span>T</span><span>U</span>
+                                                <span>N</span><span>E</span><span>G</span><span>O</span><span>C</span><span>I</span><span>O</span>
+                                                <span>C</span><span>O</span><span>N</span>
+                                                <span>I</span><span>A</span>
+                                            </div>
+                                        </h1>
+                                        <div class="hero-subtitle caption-timeline hometitle">
+                                            <br>
+                                            <span>Innovación y fuerza para tu negocio con inteligencia artificial de última generación</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="hero-footer" style="opacity: 1;">
+                                    <div class="hero-footer-left">
+                                        <div class="button-wrap right scroll-down">
+                                            <div class="icon-wrap parallax-wrap">
+                                                <div class="button-icon parallax-element">
+                                                    <i class="fa-solid fa-angle-down"></i>
+                                                </div>
+                                            </div>
+                                            <div class="button-text sticky center"><span data-hover="Scroll para explorar">Scroll para explorar</span></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <input type="email" id="email" name="email" placeholder="Email" required>
+                        </div>
+                        <!--/Hero Section -->
+                        
+                        <!-- Main Content -->
+                        <div id="main-content">
+                            <!-- Main Page Content -->
+                            <div id="main-page-content" class="content-max-width" style="opacity: 1;">
+                                
+                                <!-- Row -->
+                                <div class="dark-section-wrapper" style="background-color: rgb(12, 12, 12);">
+                                    <div class="dark-section-container content-max-width">
+                                        <div class="content-row full text-align-center row_padding_left row_padding_right dark-section" data-bgcolor="#0c0c0c">
+                                            
+                                            <div id="itemsWrapperLinks">
+                                                <div id="itemsWrapper" class="webgl-fitthumbs fx-one">
+                                                    
+                                                    <div class="overlapping-gallery">
+                                                        
+                                                        <div class="pin-spacer">
+                                                            <div class="overlapping-image" style="height: 824px;">
+                                                                <div class="overlapping-image-inner trigger-item" data-centerline="VER">
+                                                                    <div class="img-mask">
+                                                                        <a class="slide-link" data-type="page-transition" href="#servicios"></a>
+                                                                        <div class="section-image trigger-item-link">
+                                                                            <img src="images/01hero.webp" class="item-image grid__item-img" alt="">
+                                                                        </div>
+                                                                        <img src="images/01hero.webp" class="grid__item-img grid__item-img--large" alt="">
+                                                                    </div>
+                                                                    <div class="slide-caption trigger-item-link-secondary">
+                                                                        <div class="slide-title primary-font-title"><span>SERVICIOS IA</span></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="pin-spacer">
+                                                            <div class="overlapping-image" style="height: 824px;">
+                                                                <div class="overlapping-image-inner trigger-item" data-centerline="VER">
+                                                                    <div class="img-mask">
+                                                                        <a class="slide-link" data-type="page-transition" href="#soluciones"></a>
+                                                                        <div class="section-image trigger-item-link">
+                                                                            <img src="images/02hero.webp" class="item-image grid__item-img" alt="">
+                                                                        </div>
+                                                                        <img src="images/02hero.webp" class="grid__item-img grid__item-img--large" alt="">
+                                                                    </div>
+                                                                    <div class="slide-caption trigger-item-link-secondary">
+                                                                        <div class="slide-title primary-font-title"><span>SOLUCIONES</span></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="overlapping-image" style="height: 824px;">
+                                                            <div class="overlapping-image-inner trigger-item" data-centerline="VER">
+                                                                <div class="img-mask">
+                                                                    <a class="slide-link" data-type="page-transition" href="#contacto"></a>
+                                                                    <div class="section-image trigger-item-link">
+                                                                        <img src="images/03hero.webp" class="item-image grid__item-img" alt="">
+                                                                    </div>
+                                                                    <img src="images/03hero.webp" class="grid__item-img grid__item-img--large" alt="">
+                                                                </div>
+                                                                <div class="slide-caption trigger-item-link-secondary">
+                                                                    <div class="slide-title primary-font-title"><span>CONTACTO</span></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                            
+                                            <hr>
+                                            <h1 class="primary-font-title-hero has-mask-fill"><span style="background-size: 0% 100%;">Transforma tu negocio</span></h1>
+                                            <p>
+                                                <span class="has-opacity">
+                                                    <span style="opacity: 0.2;">Imagínate </span>
+                                                    <span style="opacity: 0.2;">una </span>
+                                                    <span style="opacity: 0.2;">empresa </span>
+                                                    <span style="opacity: 0.2;">que </span>
+                                                    <span style="opacity: 0.2;">te </span>
+                                                    <span style="opacity: 0.2;">garantice </span>
+                                                    <span style="opacity: 0.2;">resultados </span>
+                                                </span>
+                                                <br class="destroy">
+                                            </p>
+                                            
+                                            <div class="button-box text-align-center has-animation fadeout-element">
+                                                <div class="clapat-button-wrap parallax-wrap hide-ball">
+                                                    <div class="clapat-button parallax-element">
+                                                        <div class="button-border outline rounded parallax-element-second" style="background-color: transparent;">
+                                                            <a class="" href="mailto:info@neurostrengthai.com">
+                                                                <span data-hover="Descubre cómo">Descubre cómo</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/Row -->
+                                
+                                <!-- Row -->
+                                <div class="dark-section-wrapper" style="background-color: rgb(12, 12, 12);">
+                                    <div class="dark-section-container content-max-width">
+                                        <div class="content-row row_padding_top row_padding_bottom dark-section text-align-center" data-bgcolor="#0c0c0c">
+                                            
+                                            <div class="pinned-section">
+                                                <div class="pin-spacer">
+                                                    <div class="pinned-element left">
+                                                        <h1 class="primary-font-title-hero has-mask-fill"><span style="background-size: 0% 100%;">Automatización Inteligente</span></h1>
+                                                        <p>
+                                                            <span class="has-opacity">
+                                                                <span style="opacity: 0.2;">Impulsamos </span>
+                                                                <span style="opacity: 0.2;">tu </span>
+                                                                <span style="opacity: 0.2;">proyecto </span>
+                                                                <span style="opacity: 0.2;">con </span>
+                                                                <span style="opacity: 0.2;">IA </span>
+                                                                <span style="opacity: 0.2;">avanzada </span>
+                                                                <br>
+                                                                <span style="opacity: 0.2;">Consigue </span>
+                                                                <span style="opacity: 0.2;">eficiencia, </span>
+                                                                <span style="opacity: 0.2;">desarrolla </span>
+                                                                <span style="opacity: 0.2;">procesos </span>
+                                                                <span style="opacity: 0.2;">automatizados </span>
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="scrolling-element right">
+                                                    <figure class="has-animation">
+                                                        <a href="images/projects/1.webp" class="image-link">
+                                                            <img src="images/projects/1.webp" alt="Image Title">
+                                                        </a>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/Row -->
+                                
+                                <!-- Row -->
+                                <div class="dark-section-wrapper" style="background-color: rgb(12, 12, 12);">
+                                    <div class="dark-section-container content-max-width">
+                                        <div class="content-row row_padding_top row_padding_bottom dark-section text-align-center" data-bgcolor="#0c0c0c">
+                                            
+                                            <div class="pinned-section">
+                                                <div class="scrolling-element left">
+                                                    <figure class="has-animation">
+                                                        <a href="images/projects/2.webp" class="image-link">
+                                                            <img src="images/projects/2.webp" alt="Image Title">
+                                                        </a>
+                                                    </figure>
+                                                </div>
+                                                
+                                                <div class="pin-spacer">
+                                                    <div class="pinned-element right">
+                                                        <h1 class="primary-font-title-hero has-mask-fill"><span style="background-size: 0% 100%;">Análisis Predictivo</span></h1>
+                                                        <p>
+                                                            <span class="has-opacity">
+                                                                <span style="opacity: 0.2;">Te </span>
+                                                                <span style="opacity: 0.2;">ayudamos </span>
+                                                                <span style="opacity: 0.2;">a </span>
+                                                                <span style="opacity: 0.2;">anticipar </span>
+                                                                <span style="opacity: 0.2;">tendencias </span>
+                                                                <span style="opacity: 0.2;">y </span>
+                                                                <span style="opacity: 0.2;">comportamientos </span>
+                                                                <br>
+                                                                <span style="opacity: 0.2;">del </span>
+                                                                <span style="opacity: 0.2;">mercado </span>
+                                                                <span style="opacity: 0.2;">con </span>
+                                                                <span style="opacity: 0.2;">algoritmos </span>
+                                                                <span style="opacity: 0.2;">de </span>
+                                                                <span style="opacity: 0.2;">machine </span>
+                                                                <span style="opacity: 0.2;">learning </span>
+                                                                <span style="opacity: 0.2;">avanzados </span>
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/Row -->
+                                
+                                <!-- Row -->
+                                <div class="dark-section-wrapper" style="background-color: rgb(12, 12, 12);">
+                                    <div class="dark-section-container content-max-width">
+                                        <div class="content-row row_padding_top row_padding_bottom dark-section text-align-center" data-bgcolor="#0c0c0c">
+                                            
+                                            <div class="pinned-section">
+                                                <div class="pin-spacer">
+                                                    <div class="pinned-element left">
+                                                        <h1 class="primary-font-title-hero has-mask-fill"><span style="background-size: 0% 100%;">PRIMAMOS LA INNOVACIÓN A LA TRADICIÓN</span></h1>
+                                                        <p>
+                                                            <span class="has-opacity">
+                                                                <span style="opacity: 0.2;">La </span>
+                                                                <span style="opacity: 0.2;">tecnología </span>
+                                                                <span style="opacity: 0.2;">y </span>
+                                                                <span style="opacity: 0.2;">el </span>
+                                                                <span style="opacity: 0.2;">sentido </span>
+                                                                <span style="opacity: 0.2;">común </span>
+                                                                <span style="opacity: 0.2;">son </span>
+                                                                <span style="opacity: 0.2;">lo </span>
+                                                                <span style="opacity: 0.2;">que </span>
+                                                                <span style="opacity: 0.2;">nos </span>
+                                                                <span style="opacity: 0.2;">ha </span>
+                                                                <span style="opacity: 0.2;">llevado </span>
+                                                                <span style="opacity: 0.2;">a </span>
+                                                                <span style="opacity: 0.2;">conseguir </span>
+                                                                <span style="opacity: 0.2;">más </span>
+                                                                <span style="opacity: 0.2;">de </span>
+                                                                <span style="opacity: 0.2;">200 </span>
+                                                                <span style="opacity: 0.2;">clientes </span>
+                                                                <span style="opacity: 0.2;">actualmente. </span>
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="scrolling-element right">
+                                                    <figure class="has-animation">
+                                                        <a href="images/projects/4.webp" class="image-link">
+                                                            <img src="images/projects/4.webp" alt="Image Title">
+                                                        </a>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/Row -->
+                                
+                                <div class="title-moving-outer">
+                                    <h2 class="big-title title-moving-forward primary-font-title">NOS AVALAN +200 CLIENTES QUE HAN CONFIADO EN NOSOTROS</h2>
+                                </div>
+                                
                             </div>
-                            <div class="form-group">
-                                <input type="text" id="empresa" name="empresa" placeholder="Empresa">
+                            <!--/Main Page Content -->
+                            
+                            <!-- Page Navigation -->
+                            <div id="page-nav" style="opacity: 1;">
+                                <div class="page-nav-wrap">
+                                    <div class="page-nav-caption content-full-width text-align-center height-title" style="height: 744px;">
+                                        <div class="inner">
+                                            <a class="page-title linky" data-centerline="ENVIANOS UN MAIL" target="_blank">
+                                                <div class="next-hero-title primary-font-title caption-timeline">
+                                                    <div>
+                                                        <span>i</span><span>n</span><span>f</span><span>o</span><span>@</span><span>n</span><span>e</span><span>u</span><span>r</span><span>o</span><span>s</span><span>t</span><span>r</span><span>e</span><span>n</span><span>g</span><span>t</span><span>h</span><span>a</span><span>i</span><span>.</span><span>c</span><span>o</span><span>m</span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos sobre tu proyecto" rows="5" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Enviar mensaje</button>
-                        </form>
+                            <!--/Page Navigation -->
+                            
+                        </div>
+                        <!--/Main Content -->
+                        
                     </div>
+                    <!--/Main -->
+                    
+                    <!-- Footer -->
+                    <footer class="hidden">
+                        <div id="footer-container" style="opacity: 1;">
+                            
+                            <div id="backtotop" class="button-wrap left">
+                                <div class="icon-wrap parallax-wrap">
+                                    <div class="button-icon parallax-element">
+                                        <i class="fa-solid fa-angle-up"></i>
+                                    </div>
+                                </div>
+                                <div class="button-text sticky left"><span data-hover="Back Top">Back Top</span></div>
+                            </div>
+                            
+                            <div class="footer-middle">
+                                <div class="copyright">2025 © <a class="link" target="_blank" href="">NEUROSTRENGTHAI</a>. All rights reserved.</div>
+                            </div>
+                            
+                            <div class="footer-middle">
+                                <!-- Bloque de enlaces legales -->
+                                <div class="legal-links" style="text-align: center; margin-bottom: 10px;">
+                                    <a class="link" href="#" target="_blank">Aviso Legal y Política de Privacidad</a> |
+                                    <a class="link" href="#" target="_blank">Política de Cookies</a>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </footer>
+                    <!--/Footer -->
+                    
                 </div>
+                <!--/Content Scroll -->
+                
             </div>
-        </section>
-        <!--/Contacto Section -->
-        
+            <!--/Page Content -->
+            
+        </div>
     </main>
-    <!--/Main Content -->
     
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <div class="footer-logo">
-                        <img src="images/logo-white.png" alt="NeuroStrengthAI">
-                    </div>
-                    <p>Potenciando negocios con inteligencia artificial de última generación.</p>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Enlaces rápidos</h4>
-                    <ul class="footer-links">
-                        <li><a href="#inicio">Inicio</a></li>
-                        <li><a href="#servicios">Servicios</a></li>
-                        <li><a href="#contacto">Contacto</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Síguenos</h4>
-                    <div class="social-links">
-                        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
-                        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-                        <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <div class="copyright">
-                    <p>&copy; 2025 NeuroStrengthAI. Todos los derechos reservados.</p>
-                </div>
-                <div class="back-to-top">
-                    <button id="backToTop" class="back-to-top-btn">
-                        <i class="fas fa-arrow-up"></i>
-                    </button>
-                </div>
-            </div>
+    <div class="cd-cover-layer"></div>
+    <div id="magic-cursor" class="">
+        <div id="ball" style="translate: none; rotate: none; scale: none; border-width: 4px; transform: translate(-50%, -50%) translate3d(914px, 295px, 0px) scale(0.5, 0.5); background-color: transparent; border-color: rgb(153, 153, 153); opacity: 1;">
+            <div id="ball-drag-x"></div>
+            <div id="ball-drag-y"></div>
+            <div id="ball-loader" style="left: 0px; top: 0px; border-width: 4px;"></div>
         </div>
-    </footer>
-    <!--/Footer -->
+    </div>
+    <div id="clone-image">
+        <div class="hero-translate"></div>
+    </div>
+    <div id="rotate-device"></div>
     
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="scripts.js"></script>
+    <style>
+        canvas {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            top: 0;
+            left: 0;
+        }
+    </style>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+    
+    <!-- Otros scripts -->
+    <script src="js/clapat.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/contact.js"></script>
+    <script src="js/scripts.js"></script>
+    <script src="js/bundle.js"></script>
+    
+    <script>
+        // Función para manejar el enlace de email
+        document.addEventListener('DOMContentLoaded', function() {
+            const linkyElements = document.querySelectorAll('.linky');
+            linkyElements.forEach(function(element) {
+                element.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.location.href = "https://mail.google.com/mail/?view=cm&fs=1&to=info@neurostrengthai.com";
+                });
+            });
+        });
+    </script>
+    
+    <script>
+        function selectPhoneNumber() {
+            var phoneNumber = prompt("Elige un número para llamar:\n1. +34 600 000 000", "1");
+            
+            if (phoneNumber === "1") {
+                window.location.href = "tel:+34600000000";
+            } else {
+                alert("Número no válido.");
+            }
+        }
+    </script>
+    
 </body>
 </html>

@@ -7,277 +7,7 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Oswald:wght@700&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --bg: #010103;
-      --surface: #101117;
-      --primary: #e63946;
-      --secondary: #457b9d;
-      --text: #f1faee;
-      --text-muted: #a8dadc;
-      --glow-primary: rgba(230, 57, 70, 0.5);
-      --glow-secondary: rgba(69, 123, 157, 0.7);
-      --ease: cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    * { box-sizing: border-box; cursor: none; }
-
-    html, body {
-      margin: 0;
-      background: var(--bg);
-      font-family: 'Inter', sans-serif;
-      color: var(--text);
-      -webkit-font-smoothing: antialiased;
-      overscroll-behavior: none;
-    }
-
-    .cursor {
-      position: fixed;
-      left: 0;
-      top: 0;
-      pointer-events: none;
-      z-index: 9999;
-    }
-    .cursor--light {
-      width: 400px;
-      height: 400px;
-      border-radius: 50%;
-      background: radial-gradient(circle, var(--glow-secondary) 0%, rgba(69, 123, 157, 0) 50%);
-      transform: translate(-50%, -50%);
-      transition: width 0.4s var(--ease), height 0.4s var(--ease);
-    }
-    .cursor--dot {
-      width: 8px;
-      height: 8px;
-      background: var(--primary);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      box-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
-    }
-    body:hover .cursor--light { opacity: 1; }
-
-    #particle-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      z-index: 0;
-      opacity: 0.5;
-    }
-
-    main { position: relative; z-index: 2; }
-    .wrap { width: calc(100% - 60px); max-width: 1100px; margin: 0 auto; }
-    
-    h1, h2, h3 { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
-    p { line-height: 1.7; color: var(--text-muted); }
-
-    .panel {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 100px 0;
-      position: relative;
-    }
-
-    .panel-hero {
-      text-align: center;
-    }
-    .hero-title {
-      font-size: clamp(3rem, 10vw, 7rem);
-      line-height: 0.9;
-      margin: 0;
-      font-weight: 900;
-      color: var(--text);
-      text-shadow: 0 0 30px rgba(241, 250, 238, 0.2);
-    }
-    .hero-title .highlight {
-      color: var(--primary);
-      text-shadow: 0 0 20px var(--primary);
-    }
-    .hero-subtitle {
-      font-size: 1.2rem;
-      max-width: 600px;
-      margin: 20px auto 0;
-    }
-    .scroll-indicator {
-      position: absolute;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: var(--text-muted);
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      font-size: 0.75rem;
-    }
-    .scroll-indicator::after {
-      content: '';
-      display: block;
-      width: 2px;
-      height: 40px;
-      background: var(--primary);
-      margin: 10px auto 0;
-      animation: scroll-pulse 2s infinite;
-    }
-    @keyframes scroll-pulse {
-      0%, 100% { transform: scaleY(1); opacity: 1; }
-      50% { transform: scaleY(0.6); opacity: 0.7; }
-    }
-
-    .panel-how {
-      padding: 0;
-    }
-    .how-sticky-container {
-      height: 300vh; 
-      position: relative;
-    }
-    .how-canvas {
-      height: 100vh;
-      width: 100%;
-      position: sticky;
-      top: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
-    .how-text-content {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .how-step {
-      position: absolute;
-      text-align: center;
-      max-width: 450px;
-    }
-    .how-step h3 {
-      font-size: 3rem;
-      margin: 0 0 10px;
-      color: var(--primary);
-    }
-    .how-step p {
-      font-size: 1.1rem;
-    }
-    .how-visual {
-        position: relative;
-        width: 300px;
-        height: 300px;
-    }
-    .how-visual .ring {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        border: 2px solid var(--glow-secondary);
-        opacity: 0.5;
-    }
-    .how-visual .dot {
-        position: absolute;
-        width: 15px;
-        height: 15px;
-        background: var(--primary);
-        border-radius: 50%;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        box-shadow: 0 0 15px var(--primary);
-    }
-    
-    .results-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-      margin-top: 50px;
-    }
-    .metric-card {
-      background: var(--surface);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      padding: 30px;
-      border-radius: 16px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
-    }
-    .metric-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-    }
-    .metric-card .value {
-      font-family: 'Oswald', sans-serif;
-      font-size: 4rem;
-      color: var(--primary);
-      margin: 0;
-      line-height: 1;
-    }
-    .metric-card .label {
-      margin-top: 10px;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-    .metric-card-glow {
-        position: absolute;
-        left: 0; top: 0;
-        width: 100%; height: 100%;
-        background: radial-gradient(circle at var(--x) var(--y), var(--glow-primary) 0%, transparent 40%);
-        opacity: 0;
-        transition: opacity 0.4s var(--ease);
-    }
-    .metric-card:hover .metric-card-glow {
-        opacity: 1;
-    }
-
-    .panel-cta {
-        text-align: center;
-    }
-    .cta-title {
-        font-size: 4rem;
-        line-height: 1;
-        margin: 0;
-    }
-    .cta-button {
-        display: inline-block;
-        margin-top: 30px;
-        padding: 18px 36px;
-        border: 2px solid var(--primary);
-        border-radius: 50px;
-        background: transparent;
-        color: var(--primary);
-        font-family: 'Oswald', sans-serif;
-        font-size: 1.2rem;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        text-decoration: none;
-        position: relative;
-        overflow: hidden;
-        transition: color 0.4s var(--ease);
-    }
-    .cta-button:hover {
-        color: var(--bg);
-    }
-    .cta-button .fill {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: var(--primary);
-        transform: scaleY(0);
-        transform-origin: bottom;
-        transition: transform 0.4s var(--ease);
-        z-index: -1;
-    }
-    .cta-button:hover .fill {
-        transform: scaleY(1);
-    }
-
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -298,10 +28,11 @@
           NeuroStrengthAI no es solo inteligencia artificial. Es instinto aumentado, decisiones a la velocidad de la luz y el futuro de tu negocio, hoy.
         </p>
       </div>
-      <div class="scroll-indicator">Scroll</div>
+      <div class="scroll-indicator" aria-hidden="true">Scroll</div>
     </section>
 
     <section class="panel panel-how" id="how">
+        <h2 class="visually-hidden">¿Cómo funciona NeuroStrengthAI?</h2>
         <div class="how-sticky-container">
             <div class="how-canvas">
                 <div class="how-visual">
@@ -311,18 +42,20 @@
                     <div class="dot"></div>
                 </div>
                 <div class="how-text-content">
-                    <div class="how-step" id="step1">
-                        <h3>01. Captura</h3>
-                        <p>Inhalamos cada bit de información: interacciones, biometría, flujos de mercado. Creamos un gemelo digital vivo de tu ecosistema.</p>
-                    </div>
-                    <div class="how-step" id="step2">
-                        <h3>02. Síntesis</h3>
-                        <p>Nuestros modelos neuronales encuentran la señal en el ruido, prediciendo patrones que el ojo humano no puede ver. Convertimos el caos en claridad.</p>
-                    </div>
-                    <div class="how-step" id="step3">
-                        <h3>03. Acción</h3>
-                        <p>Entregamos la respuesta antes de que se formule la pregunta. Intervenciones precisas y automatizadas que generan un impacto medible e inmediato.</p>
-                    </div>
+                    <ol>
+                        <li class="how-step" id="step1">
+                            <h3>01. Captura</h3>
+                            <p>Inhalamos cada bit de información: interacciones, biometría, flujos de mercado. Creamos un gemelo digital vivo de tu ecosistema.</p>
+                        </li>
+                        <li class="how-step" id="step2">
+                            <h3>02. Síntesis</h3>
+                            <p>Nuestros modelos neuronales encuentran la señal en el ruido, prediciendo patrones que el ojo humano no puede ver. Convertimos el caos en claridad.</p>
+                        </li>
+                        <li class="how-step" id="step3">
+                            <h3>03. Acción</h3>
+                            <p>Entregamos la respuesta antes de que se formule la pregunta. Intervenciones precisas y automatizadas que generan un impacto medible e inmediato.</p>
+                        </li>
+                    </ol>
                 </div>
             </div>
         </div>
@@ -354,14 +87,89 @@
         </div>
     </section>
 
-    <section class="panel panel-cta" id="contact">
+    <section class="panel panel-form" id="contact">
         <div class="wrap">
-            <h2 class="cta-title">¿Listo para evolucionar?</h2>
-            <p>El futuro no espera. Se construye.</p>
-            <a href="mailto:hola@neurostrength.ai" class="cta-button" data-cursor-scale>
-                <span>Solicitar una Demo</span>
-                <div class="fill"></div>
-            </a>
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Inicia tu Automatización</h2>
+                    <p>Completa el formulario y recibe una propuesta personalizada generada por nuestra IA.</p>
+                </div>
+    
+                <form action="TU_WEBHOOK_URL_DE_N8N" method="POST" class="contact-form">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="apellidos">Apellidos</label>
+                            <input type="text" id="apellidos" name="apellidos" placeholder="Tus apellidos" required>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="nombre_empresa">Nombre de la Empresa</label>
+                        <input type="text" id="nombre_empresa" name="nombre_empresa" placeholder="Nombre de tu empresa o proyecto" required>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="correo">Correo Electrónico</label>
+                        <input type="email" id="correo" name="correo" placeholder="Tu correo electrónico de contacto" required>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="pagina_web">Página Web</label>
+                        <input type="url" id="pagina_web" name="pagina_web" placeholder="https://ejemplo.com">
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="problema">Problema a Resolver</label>
+                        <textarea id="problema" name="problema" rows="3" placeholder="Describe el principal desafío o problema que enfrentas."></textarea>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="solucion">Solución Ideal</label>
+                        <textarea id="solucion" name="solucion" rows="3" placeholder="¿Cómo imaginas la solución perfecta a este problema?"></textarea>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="enfoque">Enfoque Deseado</label>
+                        <textarea id="enfoque" name="enfoque" rows="3" placeholder="¿Tienes alguna preferencia sobre cómo abordar la solución? (Ej. tecnología, metodología)"></textarea>
+                    </div>
+    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="coste">Presupuesto (Coste)</label>
+                            <select id="coste" name="coste" required>
+                                <option value="" disabled selected>Elige un rango de inversión...</option>
+                                <option value="<5k">Menos de 5.000€</option>
+                                <option value="5k-15k">5.000€ - 15.000€</option>
+                                <option value="15k-30k">15.000€ - 30.000€</option>
+                                <option value=">30k">Más de 30.000€</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="plazo">Plazo Estimado</label>
+                            <select id="plazo" name="plazo" required>
+                                <option value="" disabled selected>Selecciona un plazo...</option>
+                                <option value="<1mes">Menos de 1 mes</option>
+                                <option value="1-3meses">1 a 3 meses</option>
+                                <option value="3-6meses">3 a 6 meses</option>
+                                <option value=">6meses">Más de 6 meses</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="cta-button">
+                            <span>Enviar Solicitud</span>
+                            <div class="fill"></div>
+                        </button>
+                    </div>
+    
+                </form>
+            </div>
         </div>
     </section>
 
@@ -369,192 +177,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-
-      const cursorLight = document.querySelector('.cursor--light');
-      const cursorDot = document.querySelector('.cursor--dot');
-      let mouseX = 0, mouseY = 0, lightX = 0, lightY = 0, dotX = 0, dotY = 0;
-
-      gsap.ticker.add(() => {
-        lightX += (mouseX - lightX) * 0.2;
-        lightY += (mouseY - lightY) * 0.2;
-        dotX += (mouseX - dotX) * 0.7;
-        dotY += (mouseY - dotY) * 0.7;
-        cursorLight.style.transform = `translate(-50%, -50%) translate(${lightX}px, ${lightY}px)`;
-        cursorDot.style.transform = `translate(-50%, -50%) translate(${dotX}px, ${dotY}px)`;
-      });
-
-      window.addEventListener('mousemove', e => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-      });
-
-      document.querySelectorAll('[data-cursor-scale], a, button').forEach(el => {
-          el.addEventListener('mouseenter', () => gsap.to(cursorLight, { scale: 1.5, duration: 0.4, ease: 'power2.out' }));
-          el.addEventListener('mouseleave', () => gsap.to(cursorLight, { scale: 1, duration: 0.4, ease: 'power2.out' }));
-      });
-      
-      const canvas = document.getElementById('particle-canvas');
-      const ctx = canvas.getContext('2d');
-      let particles = [];
-      
-      function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-      resizeCanvas();
-      window.addEventListener('resize', resizeCanvas);
-
-      class Particle {
-        constructor(x, y) {
-          this.x = x || Math.random() * canvas.width;
-          this.y = y || Math.random() * canvas.height;
-          this.vx = (Math.random() - 0.5) * 0.5;
-          this.vy = (Math.random() - 0.5) * 0.5;
-          this.size = Math.random() * 1.5 + 1;
-          this.alpha = Math.random() * 0.5 + 0.2;
-        }
-        update() {
-          this.x += this.vx;
-          this.y += this.vy;
-          if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-          if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-        }
-        draw() {
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(220, 230, 240, ${this.alpha})`;
-          ctx.fill();
-        }
-      }
-
-      for (let i = 0; i < 150; i++) {
-        particles.push(new Particle());
-      }
-
-      function animateParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => {
-            p.update();
-            p.draw();
-        });
-        // Dibujar líneas entre partículas cercanas
-        for (let i = 0; i < particles.length; i++) {
-            for (let j = i; j < particles.length; j++) {
-                let dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
-                if (dist < 100) {
-                    ctx.beginPath();
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.strokeStyle = `rgba(70, 123, 157, ${1 - dist / 100})`;
-                    ctx.stroke();
-                }
-            }
-        }
-        requestAnimationFrame(animateParticles);
-      }
-      animateParticles();
-
-
-      gsap.registerPlugin(ScrollTrigger);
-      
-      const heroTl = gsap.timeline();
-      heroTl.from('.hero-title .line', { y: 100, opacity: 0, duration: 1.5, ease: 'power4.out', stagger: 0.2 })
-            .from('.hero-subtitle', { y: 20, opacity: 0, duration: 1, ease: 'power2.out' }, "-=1")
-            .from('.scroll-indicator', { y: 20, opacity: 0, duration: 1, ease: 'power2.out' }, "-=0.5");
-      
-      const howTl = gsap.timeline({
-          scrollTrigger: {
-              trigger: '.how-sticky-container',
-              start: 'top top',
-              end: 'bottom bottom',
-              scrub: 1
-          }
-      });
-      const steps = gsap.utils.toArray('.how-step');
-      howTl.set(steps, { opacity: 0, y: 50 }); 
-      
-      howTl.to('#step1', { opacity: 1, y: 0, duration: 1 })
-           .to('.how-visual .ring:nth-child(1)', { scale: 1.5, opacity: 0.2, duration: 1 }, "<")
-           .to({}, {duration: 1}) 
-           .to('#step1', { opacity: 0, y: -50, duration: 1 })
-           .to('.how-visual .dot', { scale: 1.5, duration: 1}, "<")
-
-           .to('#step2', { opacity: 1, y: 0, duration: 1 })
-           .to('.how-visual .ring:nth-child(2)', { scale: 2.5, opacity: 0.1, duration: 1 }, "<")
-           .to({}, {duration: 1}) 
-           .to('#step2', { opacity: 0, y: -50, duration: 1 })
-           .to('.how-visual .dot', { scale: 1, duration: 1 }, "<")
-
-           .to('#step3', { opacity: 1, y: 0, duration: 1 })
-           .to('.how-visual .ring:nth-child(3)', { scale: 3.5, opacity: 0.05, duration: 1 }, "<")
-           .to({}, {duration: 1}); 
-
-      gsap.from('.metric-card', {
-          scrollTrigger: {
-              trigger: '.results-grid',
-              start: 'top 80%',
-              toggleActions: 'play none none reverse'
-          },
-          y: 50,
-          opacity: 0,
-          stagger: 0.2,
-          duration: 1,
-          ease: 'power3.out'
-      });
-      
-      gsap.utils.toArray('.metric-card .value').forEach(el => {
-          const target = el.dataset.target;
-          const originalText = el.innerText;
-          const counter = { val: 0 };
-          
-          gsap.to(counter, {
-              val: target,
-              duration: 2.5,
-              ease: 'power3.out',
-              scrollTrigger: {
-                  trigger: el,
-                  start: 'top 85%',
-                  toggleActions: 'play none none reverse'
-              },
-              onUpdate: () => {
-                  if (originalText.includes('%')) {
-                      el.textContent = `+${Math.round(counter.val)}%`;
-                  } else if (originalText.includes('x')) {
-                      el.textContent = `${Math.round(counter.val)}x`;
-                  } else {
-                      el.textContent = Math.round(counter.val);
-                  }
-              }
-          });
-      });
-
-      document.querySelectorAll('.metric-card').forEach(card => {
-          card.addEventListener('mousemove', e => {
-              const rect = card.getBoundingClientRect();
-              const x = e.clientX - rect.left;
-              const y = e.clientY - rect.top;
-              card.style.setProperty('--x', `${x}px`);
-              card.style.setProperty('--y', `${y}px`);
-          });
-      });
-
-      gsap.from('.panel-cta > .wrap > *', {
-          scrollTrigger: {
-              trigger: '.panel-cta',
-              start: 'top 70%'
-          },
-          y: 40,
-          opacity: 0,
-          stagger: 0.15,
-          duration: 1.2,
-          ease: 'expo.out'
-      });
-
-    });
-  </script>
+  <script src="main.js"></script>
 
 </body>
 </html>
